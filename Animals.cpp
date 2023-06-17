@@ -13,6 +13,7 @@ public:
     }
 
     virtual void what_they_can_do() = 0;
+    virtual animals* type() const = 0;
 };
 
 class terrestrial : public animals {
@@ -32,6 +33,12 @@ public:
         std::cout << "They can walk" << std::endl;
         std::cout << "The name of animal is " << name << std::endl;
     }
+
+    animals* type() const override {
+        return new terrestrial(*this);
+    }
+
+
 };
 
 class bird : public animals {
@@ -50,6 +57,10 @@ public:
     void what_they_can_do() override {
         std::cout << "They can fly" << std::endl;
         std::cout << "The name of bird is " << name << std::endl;
+    }
+
+    animals* type() const override {
+        return new bird(*this);
     }
 };
 
@@ -70,6 +81,10 @@ public:
         std::cout << "They can swim" << std::endl;
         std::cout << "The name of sea_animal is " << name << std::endl;
     }
+
+    animals* type() const override {
+        return new sea_animals(*this);
+    }
 };
 
 int main() {
@@ -77,14 +92,34 @@ int main() {
     sea_animals kit("Kit", "Blue");
     terrestrial land("Tiger", "Yellow and Red");
 
+    animals* ptr[] = { &falcon, &kit, &land };
+    const int Lenght = sizeof(ptr) / sizeof(ptr[0]);
+
+   
+    for (int i = 0; i < Lenght; ++i)
+    {
+        animals* anim = ptr[i];
+      
+
+        animals* new_anim = anim->type();
+        new_anim->what_they_can_do();
+
+        delete new_anim;
+    }
+
+
     bird falcon2(" ", " ");
     falcon2 = falcon;
 
     bird falcon3(falcon);
 
-    land.what_they_can_do();
-    falcon.what_they_can_do();
-    kit.what_they_can_do();
+    std::cout << std::endl;
+    std::cout << std::endl;
+    
+    falcon2.what_they_can_do();
+    falcon3.what_they_can_do();
+
+   
 
     return 0;
 }
