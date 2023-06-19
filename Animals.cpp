@@ -14,6 +14,8 @@ public:
 
     virtual void what_they_can_do() = 0;
     virtual animals* type() const = 0;
+
+    virtual ~animals() {}
 };
 
 class terrestrial : public animals {
@@ -29,12 +31,14 @@ public:
         return *this;
     }
 
-    void what_they_can_do() override {
+    virtual ~terrestrial() {}
+
+    void what_they_can_do() override final {
         std::cout << "They can walk" << std::endl;
         std::cout << "The name of animal is " << name << std::endl;
     }
 
-    animals* type() const override {
+    animals* type() const override final {
         return new terrestrial(*this);
     }
 
@@ -54,14 +58,16 @@ public:
         return *this;
     }
 
-    void what_they_can_do() override {
+    void what_they_can_do() override final{
         std::cout << "They can fly" << std::endl;
         std::cout << "The name of bird is " << name << std::endl;
     }
 
-    animals* type() const override {
+    animals* type() const override final {
         return new bird(*this);
     }
+
+    virtual ~bird() {}
 };
 
 class sea_animals : public animals {
@@ -77,13 +83,18 @@ public:
         return *this;
     }
 
-    void what_they_can_do() override {
+    void what_they_can_do() override final {
         std::cout << "They can swim" << std::endl;
         std::cout << "The name of sea_animal is " << name << std::endl;
     }
 
-    animals* type() const override {
+    animals* type() const override final {
         return new sea_animals(*this);
+    }
+
+    virtual ~sea_animals() 
+    {
+      
     }
 };
 
@@ -101,7 +112,7 @@ int main() {
         animals* anim = ptr[i];
       
 
-        animals* new_anim = anim->type();
+        animals* new_anim = anim->type() ;
         new_anim->what_they_can_do();
 
         delete new_anim;
